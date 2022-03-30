@@ -48,7 +48,7 @@ public class ModelMapper {
     }
 
     public static NeighborhoodResponseDTO entityToNeighborhoodDTO(Neighborhood neighborhood) {
-        return new NeighborhoodResponseDTO(neighborhood.getName(), neighborhood.getPriceByArea());
+        return new NeighborhoodResponseDTO(neighborhood.getName(), neighborhood.getValueDistrictM2());
     }
 
 

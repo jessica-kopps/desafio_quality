@@ -31,4 +31,11 @@ public class PropertyService {
         Random r = new Random();
         return lowerLimit + ((long) (r.nextDouble() * (upperLimit - lowerLimit)));
     }
+
+    public Room getBiggestRoom(Long id) {
+        Property property = this.getProperty(id);
+        List<Room> rooms = property.getRoms();
+        rooms.sort((b, a) -> a.getArea().compareTo(b.getArea()));
+        return rooms.get(0);
+    }
 }
