@@ -12,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Property {
+    private Long id;
     private String name;
     private List<Room> roms;
     private Neighborhood neighborhood;

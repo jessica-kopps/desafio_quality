@@ -49,8 +49,21 @@ public class JsonFileUtil<T> {
         List<T> tList = this.read(elementClass);
         tList.add(t);
         try {
-
+            objectMapper.writeValue(new File(fileName), tList);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return t;
+    }
+
+    public List<T> update(List<T> newList) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File(fileName), newList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return newList;
     }
 
 }
