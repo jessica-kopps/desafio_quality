@@ -14,6 +14,11 @@ public class PropertyService {
 
     public Property createProperty(Property property) {
        return this.repository.insert(property);
-
     }
+
+    public Property getProperty(Long id){
+        return this.repository.findById(id);
+    }
+
+    public
 }
