@@ -29,7 +29,8 @@ public class MapperDTO {
             return new RoomResponseDTO(
                     room.getName(),
                     room.getWidth(),
-                    room.getLength()
+                    room.getLength(),
+                    room.getArea()
             );
         }
 

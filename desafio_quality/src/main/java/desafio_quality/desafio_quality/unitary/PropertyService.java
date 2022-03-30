@@ -1,4 +1,4 @@
-package desafio_quality.desafio_quality.service;
+package desafio_quality.desafio_quality.unitary;
 
 
 import desafio_quality.desafio_quality.model.Property;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Random;
 
 
@@ -26,7 +25,8 @@ public class PropertyService {
     }
 
     public BigDecimal calculateValueDistrictM2(Property property) {
-        return property.calculateTotalAreaOfRooms();
+        Double totalArea = property.getRooms().stream().reduce(0.0, (acc, room) -> acc + room.getArea(), Double::sum);
+        return property.getNeighborhood().getValueDistrictM2().multiply(BigDecimal.valueOf(totalArea));
     }
 
     public Property getProperty(Long id) {
