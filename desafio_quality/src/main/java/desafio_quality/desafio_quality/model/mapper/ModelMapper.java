@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 public class ModelMapper {
     private static Neighborhood neighborhoodDTOtoEntity(NeighborhoodRequestDTO dto) {
-        return new Neighborhood(dto.getName(), dto.getPriceByArea());
+        return new Neighborhood(dto.getName(), dto.getValueDistrictM2());
     }
 
     private static Room roomDTOtoEntity(RoomRequestDTO dto) {
@@ -29,14 +29,14 @@ public class ModelMapper {
             return roomDTOtoEntity(room);
         }).collect(Collectors.toList());
 
-        return Property.builder().name(dto.getName()).roms(list).neighborhood(neighborhoodDTOtoEntity(dto.getNeighborhood())).build();
+        return Property.builder().name(dto.getName()).rooms(list).neighborhood(neighborhoodDTOtoEntity(dto.getNeighborhood())).build();
     }
 
     public static PropertyResponseDTO entityToPropertyDTO(Property property) {
 
-        List<RoomResponseDTO> listRooms = property.getRoms().stream().map(room -> entityToRoomDTO(room)).collect(Collectors.toList());
+        List<RoomResponseDTO> listRooms = property.getRooms().stream().map(room -> entityToRoomDTO(room)).collect(Collectors.toList());
 
-        return new PropertyResponseDTO(property.getName(), listRooms, entityToNeighborhoodDTO(property.getNeighborhood()));
+        return new PropertyResponseDTO(property.getId(), property.getName(), listRooms, entityToNeighborhoodDTO(property.getNeighborhood()));
     }
 
     public static RoomResponseDTO entityToRoomDTO(Room room) {

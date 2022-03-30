@@ -13,5 +13,5 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class NeighborhoodRequestDTO {
     private String name;
-    private BigDecimal priceByArea;
+    private BigDecimal valueDistrictM2;
 }

@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PropertyResponseDTO {
+    private Long id;
     private String name;
     private List<RoomResponseDTO> rooms;
     private NeighborhoodResponseDTO neighborhood;
