@@ -28,11 +28,7 @@ public class ModelMapper {
             return roomDTOtoEntity(room);
         }).collect(Collectors.toList());
 
-        return new Property(Property.generateID(),
-                dto.getName(),
-                list,
-                neighborhoodDTOtoEntity(dto.getNeighborhood())
-        );
+        return Property.builder().name(dto.getName()).roms(list).neighborhood(neighborhoodDTOtoEntity(dto.getNeighborhood())).build();
     }
 
     public static PropertyResponseDTO entityToPropertyDTO(Property property) {

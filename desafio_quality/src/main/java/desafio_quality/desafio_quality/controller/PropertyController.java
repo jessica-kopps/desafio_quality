@@ -25,7 +25,6 @@ public class PropertyController {
         Property property = ModelMapper.propertyDTOtoEntity(propertyRequestDTO);
         return ResponseEntity.ok(ModelMapper.entityToPropertyDTO(this.service.createProperty(property)));
 
-
     }
 
 }
