@@ -14,7 +14,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PropertyResponseDTO {
-
     private String name;
     private List<RoomResponseDTO> rooms;
     private NeighborhoodResponseDTO neighborhood;

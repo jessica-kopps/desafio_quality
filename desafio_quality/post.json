@@ -1,0 +1,19 @@
+{
+  "name": "Propriedade 1",
+  "rooms": [
+    {
+      "name": "Cozinha",
+      "width": 20.0,
+      "length": 4.0
+    },
+    {
+      "name": "Quarto 1",
+      "width": 23.0,
+      "length": 6.5
+    }
+  ],
+  "neighborhood": {
+    "name": "Tatuape",
+    "priceByArea": 201
+  }
+}
