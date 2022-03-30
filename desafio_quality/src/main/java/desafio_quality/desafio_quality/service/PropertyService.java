@@ -1,4 +1,4 @@
-package desafio_quality.desafio_quality.unitary;
+package desafio_quality.desafio_quality.service;
 
 
 import desafio_quality.desafio_quality.model.Property;
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Random;
 
 

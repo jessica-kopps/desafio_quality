@@ -8,7 +8,7 @@ import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.model.mapper.ModelMapper;
-import desafio_quality.desafio_quality.unitary.PropertyService;
+import desafio_quality.desafio_quality.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +53,7 @@ public class PropertyController {
         return ResponseEntity.ok().body(propertyPrice);
     }
 
-    @GetMapping("/BiggestRoom/{id}")
+    @GetMapping("/biggestRoom/{id}")
     public ResponseEntity<RoomResponseDTO> getBiggestRoom(@PathVariable Long id){
         Room room = this.service.getBiggestRoom(id);
         return ResponseEntity.ok(ModelMapper.entityToRoomDTO(room));
