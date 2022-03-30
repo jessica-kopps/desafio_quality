@@ -15,6 +15,13 @@ public class Room {
     private Double width;
     private Double area;
 
+    public Room(String name, Double length, Double width){
+        this.name = name;
+        this.length = length;
+        this.width = width;
+        this.area = this.calculateTotalArea(length, width);
+    }
+
     public Double calculateTotalArea( Double length, Double width) {
         this.area = length * width;
         return area;

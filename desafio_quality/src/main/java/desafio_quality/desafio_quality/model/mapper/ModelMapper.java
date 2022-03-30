@@ -21,7 +21,7 @@ public class ModelMapper {
     }
 
     private static Room roomDTOtoEntity(RoomRequestDTO dto) {
-        return Room.builder().name(dto.getName()).length(dto.getLength()).width(dto.getWidth()).build();
+        return new Room(dto.getName(), dto.getLength(), dto.getWidth());
     }
 
     public static Property propertyDTOtoEntity(PropertyRequestDTO dto) {
