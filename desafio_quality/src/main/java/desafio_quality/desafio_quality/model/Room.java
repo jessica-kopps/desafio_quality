@@ -16,6 +16,7 @@ public class Room {
     private Double area;
 
     public Double calculateTotalArea( Double length, Double width) {
-        return length * width;
+        this.area = length * width;
+        return area;
     }
 }
