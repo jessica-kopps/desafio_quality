@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -14,9 +13,9 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PropertyResponseDTO {
+    private Long id;
     private String name;
     private List<RoomResponseDTO> rooms;
     private NeighborhoodResponseDTO neighborhood;
-    private BigDecimal totalPrice;
 
 }

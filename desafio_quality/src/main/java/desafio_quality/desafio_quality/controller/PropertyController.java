@@ -1,6 +1,8 @@
 package desafio_quality.desafio_quality.controller;
 
+import desafio_quality.desafio_quality.dto.mapper.MapperDTO;
 import desafio_quality.desafio_quality.dto.request.PropertyRequestDTO;
+import desafio_quality.desafio_quality.dto.response.PropertyPriceResponseDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
 import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.model.Property;
@@ -39,14 +41,14 @@ public class PropertyController {
     @GetMapping("/roomsAreas/{id}")
     public ResponseEntity<List<RoomResponseDTO>> getRoomsAreas(@PathVariable Long id){
         Property property = this.service.getProperty(id);
-        return ResponseEntity.ok(ModelMapper.entityToRoomDTO(property.getRoms()));
+        return ResponseEntity.ok(ModelMapper.entityToRoomDTO(property.getRooms()));
     }
 
     @GetMapping(value = "{id}/price")
-    public ResponseEntity<PropertyResponseDTO> calculatePrice(@PathVariable Long id) {
+    public ResponseEntity<PropertyPriceResponseDTO> calculatePrice(@PathVariable Long id) {
         Property property = this.service.getProperty(id);
         BigDecimal totalPrice = this.service.calculateValueDistrictM2(property);
-
-        return ResponseEntity.ok().body(null);
+        PropertyPriceResponseDTO propertyPrice = MapperDTO.propertyToPropertyPriceDTO(property, totalPrice);
+        return ResponseEntity.ok().body(propertyPrice);
     }
 }

@@ -2,9 +2,7 @@ package desafio_quality.desafio_quality.service;
 
 
 import desafio_quality.desafio_quality.model.Property;
-import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.repository.PropertyRepository;
-import desafio_quality.desafio_quality.util.CalculationArea;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,16 +25,17 @@ public class PropertyService {
     }
 
     public BigDecimal calculateValueDistrictM2(Property property) {
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        property.getRoms().forEach(room ->
-                totalPrice.add(CalculationArea.calculateTotalValueDistrictM2(
-                        property.getNeighborhood().getValueDistrictM2(), room.getLength(), room.getWidth()))
-        );
-        return totalPrice;
+        return property.calculateTotalAreaOfRooms();
     }
 
     public Property getProperty(Long id) {
-        return this.repository.findById(id);
+        Property property = this.repository.findById(id);
+
+        if(property == null){
+            throw new IllegalArgumentException("Product doesnt exist.");
+        }
+
+        return  property;
     }
 
     private  Long generateID() {

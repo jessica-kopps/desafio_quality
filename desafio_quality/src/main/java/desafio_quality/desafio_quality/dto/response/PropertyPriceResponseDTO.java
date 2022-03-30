@@ -11,7 +11,9 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class NeighborhoodResponseDTO {
-    private String name;
-    private BigDecimal valueDistrictM2;
+public class PropertyPriceResponseDTO {
+
+    private PropertyResponseDTO property;
+    private BigDecimal totalPrice;
+
 }
