@@ -10,11 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Room {
-
     private String name;
     private Double length;
     private Double width;
-
-
-
+    private Double area;
 }

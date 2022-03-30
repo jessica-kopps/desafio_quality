@@ -2,15 +2,17 @@ package desafio_quality.desafio_quality.controller;
 
 import desafio_quality.desafio_quality.dto.request.PropertyRequestDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
+import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.mapper.ModelMapper;
 import desafio_quality.desafio_quality.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/properties")
@@ -20,8 +22,21 @@ public class PropertyController {
     PropertyService service;
 
     @PostMapping
-    public ResponseEntity<PropertyResponseDTO> createProperty(@RequestBody PropertyRequestDTO propertyRequestDTO) {
+    public ResponseEntity<PropertyResponseDTO> createProperty(@RequestBody PropertyRequestDTO propertyRequestDTO, UriComponentsBuilder uriBuilder) {
         Property property = ModelMapper.propertyDTOtoEntity(propertyRequestDTO);
-        return ResponseEntity.ok(ModelMapper.entityToPropertyDTO(this.service.createProperty(property)));
+        PropertyResponseDTO propertyResponseDTO = ModelMapper.entityToPropertyDTO(this.service.createProperty(property));
+
+        URI uri = uriBuilder
+                .path("{id}")
+                .buildAndExpand(property.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(propertyResponseDTO);
+    }
+
+    @GetMapping("/roomsAreas/{id}")
+    public ResponseEntity<List<RoomResponseDTO>> getRoomsAreas(@PathVariable Long id){
+        Property property = this.service.getProperty(id);
+        return ResponseEntity.ok(ModelMapper.entityToRoomDTO(property.getRoms()));
     }
 }

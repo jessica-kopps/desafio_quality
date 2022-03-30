@@ -11,6 +11,7 @@ import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ public class ModelMapper {
     }
 
     private static Room roomDTOtoEntity(RoomRequestDTO dto) {
-        return new Room(dto.getName(), dto.getLength(), dto.getWidth());
+        return new Room(dto.getName(), dto.getLength(), dto.getWidth(), dto.getLength() * dto.getWidth());
     }
 
     public static Property propertyDTOtoEntity(PropertyRequestDTO dto) {
@@ -28,11 +29,7 @@ public class ModelMapper {
             return roomDTOtoEntity(room);
         }).collect(Collectors.toList());
 
-        return new Property(Property.generateID(),
-                dto.getName(),
-                list,
-                neighborhoodDTOtoEntity(dto.getNeighborhood())
-        );
+        return Property.builder().name(dto.getName()).roms(list).neighborhood(neighborhoodDTOtoEntity(dto.getNeighborhood())).build();
     }
 
     public static PropertyResponseDTO entityToPropertyDTO(Property property) {
@@ -40,13 +37,14 @@ public class ModelMapper {
         List<RoomResponseDTO> listRooms = property.getRoms().stream().map(room -> entityToRoomDTO(room)).collect(Collectors.toList());
 
         return new PropertyResponseDTO(property.getName(), listRooms, entityToNeighborhoodDTO(property.getNeighborhood()));
-
-
     }
 
     public static RoomResponseDTO entityToRoomDTO(Room room) {
-        return new RoomResponseDTO(room.getName(), room.getWidth(), room.getLength());
+        return new RoomResponseDTO(room.getName(), room.getWidth(), room.getLength(), room.getArea());
+    }
 
+    public static List<RoomResponseDTO> entityToRoomDTO(List<Room> rooms) {
+        return rooms.stream().map(room -> entityToRoomDTO(room)).collect(Collectors.toList());
     }
 
     public static NeighborhoodResponseDTO entityToNeighborhoodDTO(Neighborhood neighborhood) {
