@@ -12,6 +12,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ModelMapper {
+
+    private static Long idGlobal;
+
     private static Neighborhood neighborhoodDTO (NeighborhoodRequestDTO dto) {
         return new Neighborhood(dto.getName(), dto.getPriceByArea());
     }
@@ -24,8 +27,8 @@ public class ModelMapper {
         List<Room> list = dto.getRooms().stream().map(room -> {
             return roomDTO(room);
         }).collect(Collectors.toList());
-
-        return new Property(null,
+        idGlobal++;
+        return new Property(idGlobal,
                 dto.getName(),
                 list,
                 neighborhoodDTO(dto.getNeighborhood())
