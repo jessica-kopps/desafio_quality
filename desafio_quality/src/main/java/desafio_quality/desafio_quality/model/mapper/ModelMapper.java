@@ -11,6 +11,7 @@ import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,13 +37,14 @@ public class ModelMapper {
         List<RoomResponseDTO> listRooms = property.getRoms().stream().map(room -> entityToRoomDTO(room)).collect(Collectors.toList());
 
         return new PropertyResponseDTO(property.getName(), listRooms, entityToNeighborhoodDTO(property.getNeighborhood()));
-
-
     }
 
     public static RoomResponseDTO entityToRoomDTO(Room room) {
-        return new RoomResponseDTO(room.getName(), room.getWidth(), room.getLength());
+        return new RoomResponseDTO(room.getName(), room.getWidth(), room.getLength(), room.getArea());
+    }
 
+    public static List<RoomResponseDTO> entityToRoomDTO(List<Room> rooms) {
+        return rooms.stream().map(room -> entityToRoomDTO(room)).collect(Collectors.toList());
     }
 
     public static NeighborhoodResponseDTO entityToNeighborhoodDTO(Neighborhood neighborhood) {

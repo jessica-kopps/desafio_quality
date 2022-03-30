@@ -15,11 +15,4 @@ public class Property {
     private String name;
     private List<Room> roms;
     private Neighborhood neighborhood;
-
-
-
-
-
-
-
 }

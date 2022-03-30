@@ -2,10 +2,12 @@ package desafio_quality.desafio_quality.service;
 
 
 import desafio_quality.desafio_quality.model.Property;
+import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
