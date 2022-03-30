@@ -19,13 +19,10 @@ public class PropertyController {
     @Autowired
     PropertyService service;
 
-
     @PostMapping
     public ResponseEntity<Property> createProperty(@RequestBody PropertyRequestDTO propertyRequestDTO){
         Property property = ModelMapper.propertyDTO(propertyRequestDTO);
         return ResponseEntity.ok(this.service.createProperty(property));
-
-
     }
 
 }
