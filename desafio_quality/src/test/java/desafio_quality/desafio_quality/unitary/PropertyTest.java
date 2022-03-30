@@ -1,4 +1,4 @@
-package desafio_quality.desafio_quality.service;
+package desafio_quality.desafio_quality.unitary;
 
 import desafio_quality.desafio_quality.repository.PropertyRepository;
 import org.junit.jupiter.api.extension.ExtendWith;

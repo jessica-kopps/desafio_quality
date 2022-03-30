@@ -7,7 +7,7 @@ import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
 import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.mapper.ModelMapper;
-import desafio_quality.desafio_quality.service.PropertyService;
+import desafio_quality.desafio_quality.unitary.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.PrimitiveIterator;
 
 @RestController
 @RequestMapping("/properties")
