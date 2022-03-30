@@ -25,7 +25,8 @@ public class PropertyService {
     }
 
     public BigDecimal calculateValueDistrictM2(Property property) {
-        return property.calculateTotalAreaOfRooms();
+        Double totalArea = property.getRooms().stream().reduce(0.0, (acc, room) -> acc + room.getArea(), Double::sum);
+        return property.getNeighborhood().getValueDistrictM2().multiply(BigDecimal.valueOf(totalArea));
     }
 
     public Property getProperty(Long id) {

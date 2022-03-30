@@ -1,16 +1,21 @@
 package desafio_quality.desafio_quality.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Room {
     private String name;
     private Double length;
     private Double width;
+    private Double area;
+
+    public Double calculateTotalArea( Double length, Double width) {
+        return length * width;
+    }
 }

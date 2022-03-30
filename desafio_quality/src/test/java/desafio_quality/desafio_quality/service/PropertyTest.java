@@ -6,7 +6,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 public class PropertyTest {
@@ -16,5 +15,9 @@ public class PropertyTest {
 
     @InjectMocks
     private PropertyService service;
+
+    void calculateValueDistrictM2() {
+
+    }
 
 }

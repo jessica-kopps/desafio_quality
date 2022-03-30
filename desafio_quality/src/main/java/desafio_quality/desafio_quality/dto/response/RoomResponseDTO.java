@@ -11,4 +11,5 @@ public class RoomResponseDTO {
     private String name;
     private Double width;
     private Double length;
+    private Double area;
 }
