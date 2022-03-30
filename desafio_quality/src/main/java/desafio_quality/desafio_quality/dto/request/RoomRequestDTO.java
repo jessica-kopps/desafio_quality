@@ -12,5 +12,5 @@ import lombok.Setter;
 public class RoomRequestDTO {
     private String name;
     private Double width;
-    private Double lenght;
+    private Double length;
 }

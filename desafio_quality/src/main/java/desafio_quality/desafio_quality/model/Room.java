@@ -12,8 +12,9 @@ import lombok.Setter;
 public class Room {
 
     private String name;
+    private Double length;
     private Double width;
-    private Double lenght;
+
 
 
 }

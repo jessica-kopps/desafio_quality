@@ -17,7 +17,7 @@ public class ModelMapper {
     }
 
     private static Room roomDTO (RoomRequestDTO dto) {
-        return new Room(dto.getName(), dto.getLenght(), dto.getWidth());
+        return new Room(dto.getName(), dto.getLength(), dto.getWidth());
     }
 
     public static Property propertyDTO (PropertyRequestDTO dto) {
@@ -25,7 +25,7 @@ public class ModelMapper {
             return roomDTO(room);
         }).collect(Collectors.toList());
 
-        return new Property(
+        return new Property(null,
                 dto.getName(),
                 list,
                 neighborhoodDTO(dto.getNeighborhood())
