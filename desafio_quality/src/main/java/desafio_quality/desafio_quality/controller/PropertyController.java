@@ -24,11 +24,10 @@ public class PropertyController {
     }
 
     @GetMapping("/roomsArea/{id}")
-    public ResponseEntity<?> getRoomsAreas(@PathVariable Long id){
+    public void getRoomsAreas(@PathVariable Long id){
         Property property = this.service.getProperty(id);
-
+        return;
     }
-
 }
 
 
