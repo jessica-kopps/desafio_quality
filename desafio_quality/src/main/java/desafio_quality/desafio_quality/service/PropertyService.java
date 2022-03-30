@@ -13,6 +13,8 @@ public class PropertyService {
     PropertyRepository repository;
 
     public Property createProperty(Property property) {
+        Long id = Property.generateID();
+        property.setId(id);
        return this.repository.insert(property);
 
     }

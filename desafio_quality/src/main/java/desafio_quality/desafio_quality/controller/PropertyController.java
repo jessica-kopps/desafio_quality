@@ -20,9 +20,8 @@ public class PropertyController {
     PropertyService service;
 
     @PostMapping
-    public ResponseEntity<Property> createProperty(@RequestBody PropertyRequestDTO propertyRequestDTO){
-        Property property = ModelMapper.propertyDTO(propertyRequestDTO);
-        return ResponseEntity.ok(this.service.createProperty(property));
+    public ResponseEntity<PropertyResponseDTO> createProperty(@RequestBody PropertyRequestDTO propertyRequestDTO) {
+        Property property = ModelMapper.propertyDTOtoEntity(propertyRequestDTO);
+        return ResponseEntity.ok(ModelMapper.entityToPropertyDTO(this.service.createProperty(property)));
     }
-
 }
