@@ -50,7 +50,7 @@ public class PropertyService {
         Property property = this.repository.findById(id);
 
         if(property == null){
-            throw new PropertyNotFoundException("O imóvel de id " + id + " não foi encontrado.");
+            throw new PropertyNotFoundException("O imovel de id " + id + " nao foi encontrado.");
         }
 
         return  property;

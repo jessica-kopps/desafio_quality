@@ -61,7 +61,7 @@ public class PropertyController {
         return ResponseEntity.ok().body(propertyPrice);
     }
 
-    @GetMapping("/biggestRoom/{id}")
+    @GetMapping("{id}/biggestRoom")
     public ResponseEntity<RoomResponseDTO> getBiggestRoom(@PathVariable Long id){
         Room room = this.service.getBiggestRoom(id);
         return ResponseEntity.ok(ModelMapper.entityToRoomDTO(room));

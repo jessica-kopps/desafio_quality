@@ -6,11 +6,13 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import desafio_quality.desafio_quality.dto.mapper.MapperDTO;
 import desafio_quality.desafio_quality.dto.request.PropertyRequestDTO;
+import desafio_quality.desafio_quality.dto.response.ErrorDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyPriceResponseDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
 import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.factory.PropertyFactory;
 import desafio_quality.desafio_quality.model.Property;
+import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.service.PropertyService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,26 @@ public class PropertyControllerTest {
     }
 
     @Test
+    public void testPropertyNotFoundException() throws Exception {
+        Long imaginaryId = 1L;
+        ErrorDTO errorExpected = new ErrorDTO("PropertyNotFoundException",
+                "O imovel de id " + imaginaryId + " nao foi encontrado.");
+
+        MvcResult mvcResult =
+                this.mock.perform(MockMvcRequestBuilders.get("/properties/{id}", imaginaryId))
+                        .andDo(print()).andExpect(status().isNotFound()).andReturn();
+
+        String jsonReturned = mvcResult.getResponse().getContentAsString();
+
+
+        ErrorDTO errorResult = new ObjectMapper().readValue(jsonReturned, ErrorDTO.class);
+
+        System.out.println(errorResult.getDescription());
+        assertEquals(errorResult.getName(), errorExpected.getName());
+        assertEquals(errorResult.getDescription(), errorExpected.getDescription());
+    }
+
+    @Test
     public void testCalculatePrice() throws Exception {
         Property property = service.createProperty(PropertyFactory.createProperty());
         BigDecimal totalPrice = service.propertyCalculationValue(property);
@@ -65,7 +87,7 @@ public class PropertyControllerTest {
     }
 
     @Test
-    public void testRoomsAreas() throws  Exception {
+    public void testRoomAreas() throws  Exception {
         Property property = service.createProperty(PropertyFactory.createProperty());
         MvcResult mvcResult = this.mock.perform(MockMvcRequestBuilders.get("/properties/{id}/roomAreas", property.getId()))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
@@ -73,6 +95,20 @@ public class PropertyControllerTest {
         List<RoomResponseDTO> roomResult = new ObjectMapper().readValue(jsonReturned, new TypeReference<List<RoomResponseDTO>>(){});
 
         assertEquals(property.getRooms().get(0).getArea(), roomResult.get(0).getArea());
+    }
+
+    @Test
+    public void testBiggestRoom() throws Exception {
+        Property property = service.createProperty(PropertyFactory.createProperty());
+        Room biggestRoomExpected = service.getBiggestRoom(property.getId());
+
+        MvcResult mvcResult = this.mock.perform(MockMvcRequestBuilders.get("/properties/{id}/biggestRoom", property.getId()))
+                .andDo(print()).andExpect(status().isOk()).andReturn();
+
+        String jsonReturned = mvcResult.getResponse().getContentAsString();
+        RoomResponseDTO roomResponseDTO = new ObjectMapper().readValue(jsonReturned, RoomResponseDTO.class);
+
+        assertEquals(roomResponseDTO.getName(), biggestRoomExpected.getName());
     }
 
     @Test
