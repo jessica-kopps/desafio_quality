@@ -76,4 +76,23 @@ public class PropertyFactory {
         );
     }
 
+    public static PropertyRequestDTO createPropertyRequestDTO(NeighborhoodRequestDTO neighborhoodRequestDTO) {
+        return new PropertyRequestDTO(
+                "Fazenda da Joaquina",
+                Arrays.asList(
+                        new RoomRequestDTO(
+                                "Quarto",
+                                15.0,
+                                15.0
+                        ),
+                        new RoomRequestDTO(
+                                "Cozinha",
+                                15.0,
+                                15.0
+                        )
+                ),
+               neighborhoodRequestDTO
+        );
+    }
+
 }

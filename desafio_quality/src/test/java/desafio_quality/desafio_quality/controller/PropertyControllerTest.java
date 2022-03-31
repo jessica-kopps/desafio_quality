@@ -5,12 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import desafio_quality.desafio_quality.dto.mapper.MapperDTO;
+import desafio_quality.desafio_quality.dto.request.NeighborhoodRequestDTO;
 import desafio_quality.desafio_quality.dto.request.PropertyRequestDTO;
 import desafio_quality.desafio_quality.dto.response.ErrorDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyPriceResponseDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
 import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.factory.PropertyFactory;
+import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.service.PropertyService;
@@ -69,16 +71,41 @@ public class PropertyControllerTest {
 
         ErrorDTO errorResult = new ObjectMapper().readValue(jsonReturned, ErrorDTO.class);
 
-        System.out.println(errorResult.getDescription());
         assertEquals(errorResult.getName(), errorExpected.getName());
         assertEquals(errorResult.getDescription(), errorExpected.getDescription());
+    }
+
+    @Test
+    public void testNeighborhoodDoesntExists() throws Exception {
+
+        ErrorDTO errorExpected = new ErrorDTO("NeighborhoodDoesntExists",
+                "Este bairro nao existe!");
+
+        PropertyRequestDTO requestObject = PropertyFactory.createPropertyRequestDTO(new NeighborhoodRequestDTO("NomeDoBairro", BigDecimal.valueOf(666.00)));
+
+        ObjectWriter writer = new ObjectMapper()
+                .configure(SerializationFeature.WRAP_ROOT_VALUE, false)
+                .writer().withDefaultPrettyPrinter();
+        String payloadRequestJson = writer.writeValueAsString(requestObject);
+
+        MvcResult mvcResult = this.mock.perform(MockMvcRequestBuilders.post("/properties")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(payloadRequestJson))
+                .andDo(print()).andExpect(status().isNotFound()).andReturn();
+
+        String jsonReturned = mvcResult.getResponse().getContentAsString();
+        ErrorDTO errorResult = new ObjectMapper().readValue(jsonReturned, ErrorDTO.class);
+        assertEquals(errorResult.getName(), errorExpected.getName());
+        assertEquals(errorResult.getDescription(), errorExpected.getDescription());
+
+
     }
 
     @Test
     public void testCalculatePrice() throws Exception {
         Property property = service.createProperty(PropertyFactory.createProperty());
         BigDecimal totalPrice = service.propertyCalculationValue(property);
-        MvcResult mvcResult = this.mock.perform(MockMvcRequestBuilders.get("/properties/{id}/price",property.getId()))
+        MvcResult mvcResult = this.mock.perform(MockMvcRequestBuilders.get("/properties/{id}/price", property.getId()))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
         String jsonReturned = mvcResult.getResponse().getContentAsString();
         PropertyPriceResponseDTO priceResult = new ObjectMapper().readValue(jsonReturned, PropertyPriceResponseDTO.class);
@@ -87,12 +114,13 @@ public class PropertyControllerTest {
     }
 
     @Test
-    public void testRoomAreas() throws  Exception {
+    public void testRoomAreas() throws Exception {
         Property property = service.createProperty(PropertyFactory.createProperty());
         MvcResult mvcResult = this.mock.perform(MockMvcRequestBuilders.get("/properties/{id}/roomAreas", property.getId()))
                 .andDo(print()).andExpect(status().isOk()).andReturn();
         String jsonReturned = mvcResult.getResponse().getContentAsString();
-        List<RoomResponseDTO> roomResult = new ObjectMapper().readValue(jsonReturned, new TypeReference<List<RoomResponseDTO>>(){});
+        List<RoomResponseDTO> roomResult = new ObjectMapper().readValue(jsonReturned, new TypeReference<List<RoomResponseDTO>>() {
+        });
 
         assertEquals(property.getRooms().get(0).getArea(), roomResult.get(0).getArea());
     }

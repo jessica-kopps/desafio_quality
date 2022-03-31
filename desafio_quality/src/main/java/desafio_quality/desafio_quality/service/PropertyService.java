@@ -74,7 +74,7 @@ public class PropertyService {
     private String verifyingNeighborhoodExists(String neighborhoodName) {
         Neighborhood neighborhood = neighborhoodRepository.findAll().stream().filter(neighborhoodRegistered -> {
             return neighborhoodRegistered.getName().equalsIgnoreCase(neighborhoodName);
-        }).findFirst().orElseThrow( () -> new NeighborhoodDoesntExists("Este bairro não existe!"));
+        }).findFirst().orElseThrow( () -> new NeighborhoodDoesntExists("Este bairro nao existe!"));
         return neighborhood.getName();
     }
 }
