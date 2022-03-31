@@ -8,7 +8,6 @@ import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.repository.NeighborhoodRepository;
 import desafio_quality.desafio_quality.repository.PropertyRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,9 +35,7 @@ public class PropertyTest {
     @InjectMocks
     private PropertyService service;
 
-
-
-    private void setupGetProperty(){
+    private void setupGetProperty() {
         Mockito.when(repository.findById(Mockito.any())).thenReturn(null);
     }
 
@@ -55,7 +51,7 @@ public class PropertyTest {
         Mockito.when(repository.insert(Mockito.any())).thenReturn(property);
     }
 
-    private void setupFindAllThrowsException(){
+    private void setupFindAllThrowsException() {
         Property property = PropertyFactory.createProperty();
         Mockito.when(neighborhoodRepository.findAll()).thenReturn(Arrays.asList(new Neighborhood(property.getNeighborhood().getName(),
                 property.getNeighborhood().getValueDistrictM2())));
@@ -85,9 +81,8 @@ public class PropertyTest {
         assertEquals(createProperty.getNeighborhood().getName(), "Bairro 1");
     }
 
-
     @Test
-    void shouldThrowsExceptionWhenNeighborhoodDoesntExists() throws Exception {
+    void shouldThrowsExceptionWhenNeighborhoodDoesntExists() {
         this.setupFindAllThrowsException();
         Property property = PropertyFactory.createProperty();
         property.setNeighborhood(new Neighborhood("NomeDoBairro", BigDecimal.valueOf(666.00)));
@@ -110,5 +105,13 @@ public class PropertyTest {
         assertThrows(PropertyNotFoundException.class, () -> {
             service.getProperty(null);
         });
+    }
+
+    @Test
+    void shouldCalculatePropertyValue() {
+        Property property = PropertyFactory.createProperty();
+        assertEquals(service.propertyCalculationValue(property),
+                property.getNeighborhood().getValueDistrictM2().multiply(
+                        BigDecimal.valueOf(property.getRooms().stream().reduce(0.0, (acc, room) -> acc + room.getArea(), Double::sum))));
     }
 }
