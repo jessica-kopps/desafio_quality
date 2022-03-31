@@ -1,9 +1,12 @@
 package desafio_quality.desafio_quality.service;
 
 
+import desafio_quality.desafio_quality.exception.NeighborhoodDoesntExists;
 import desafio_quality.desafio_quality.exception.PropertyNotFoundException;
+import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
+import desafio_quality.desafio_quality.repository.NeighborhoodRepository;
 import desafio_quality.desafio_quality.repository.PropertyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +23,19 @@ public class PropertyService {
     @Autowired
     PropertyRepository repository;
 
+    @Autowired
+    NeighborhoodRepository neighborhoodRepository;
+
     public Property createProperty(Property property) {
         Long id = generateID();
         property.setId(id);
-       return this.repository.insert(property);
+
+        property.getNeighborhood()
+                .setName(
+                        verifyingNeighborhoodExists(property.getNeighborhood().getName()
+                        ));
+
+        return this.repository.insert(property);
     }
 
     public BigDecimal propertyCalculationValue(Property property) {
@@ -54,5 +66,12 @@ public class PropertyService {
         List<Room> rooms = property.getRooms();
         rooms.sort((b, a) -> a.getArea().compareTo(b.getArea()));
         return rooms.get(0);
+    }
+
+    private String verifyingNeighborhoodExists(String neighborhoodName) {
+        Neighborhood neighborhood = neighborhoodRepository.findAll().stream().filter(neighborhoodRegistered -> {
+            return neighborhoodRegistered.getName().equalsIgnoreCase(neighborhoodName);
+        }).findFirst().orElseThrow( () -> new NeighborhoodDoesntExists("Este bairro não existe!"));
+        return neighborhood.getName();
     }
 }

@@ -1,6 +1,7 @@
 package desafio_quality.desafio_quality.controller.exception;
 
 import desafio_quality.desafio_quality.dto.response.ErrorDTO;
+import desafio_quality.desafio_quality.exception.NeighborhoodDoesntExists;
 import desafio_quality.desafio_quality.exception.PropertyNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,5 +30,10 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(PropertyNotFoundException.class)
     protected ResponseEntity<?> propertyNotFoundException(PropertyNotFoundException err) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO("PropertyNotFoundException", err.getMessage()));
+    }
+
+    @ExceptionHandler(NeighborhoodDoesntExists.class)
+    protected ResponseEntity<?> neighborhoodDoesntExists(NeighborhoodDoesntExists err) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO("NeighborhoodDoesntExists", err.getMessage()));
     }
 }

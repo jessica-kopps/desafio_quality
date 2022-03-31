@@ -2,6 +2,7 @@ package desafio_quality.desafio_quality.repository;
 
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.util.JsonFileUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +13,8 @@ import java.util.stream.Collectors;
 public class PropertyRepository implements IPropertyRepository<Long, Property> {
 
     private static final String FILENAME = "properties.json";
+
+
 
     @Override
     public Property findById(Long id) {

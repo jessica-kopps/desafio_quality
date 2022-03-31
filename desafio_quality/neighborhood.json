@@ -1,0 +1,46 @@
+[
+  {
+    "name": "Pituba",
+    "valueDistrictM2": 150
+  },
+  {
+    "name": "Barra",
+    "valueDistrictM2": 200
+  },
+  {
+    "name": "Leblon",
+    "valueDistrictM2": 600
+  },
+  {
+    "name": "Pinheiros",
+    "valueDistrictM2": 400
+  },
+  {
+    "name": "Trindade",
+    "valueDistrictM2": 400
+  },
+  {
+    "name": "Humaitá",
+    "valueDistrictM2": 1000
+  },
+  {
+    "name": "Recreio",
+    "valueDistrictM2": 3000
+  },
+  {
+    "name": "Águas Claras",
+    "valueDistrictM2": 50
+  },
+  {
+    "name": "Jurerê Internacional",
+    "valueDistrictM2": 5000
+  },
+  {
+    "name": "Centro",
+    "valueDistrictM2": 700
+  },
+  {
+    "name": "Pelourinho",
+    "valueDistrictM2": 250
+  }
+]
