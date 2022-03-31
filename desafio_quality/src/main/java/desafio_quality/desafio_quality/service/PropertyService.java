@@ -38,9 +38,12 @@ public class PropertyService {
         return this.repository.insert(property);
     }
 
+    public Double getTotalArea(Property property){
+        return property.getRooms().stream().reduce(0.0, (acc, room) -> acc + room.getArea(), Double::sum);
+    }
     public BigDecimal propertyCalculationValue(Property property) {
-        Double totalArea = property.getRooms().stream().reduce(0.0, (acc, room) -> acc + room.getArea(), Double::sum);
-        return property.getNeighborhood().getValueDistrictM2().multiply(BigDecimal.valueOf(totalArea));
+        return property.getNeighborhood().getValueDistrictM2().multiply(
+                BigDecimal.valueOf(getTotalArea(property)));
     }
 
     public Property getProperty(Long id) {

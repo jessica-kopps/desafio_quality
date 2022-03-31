@@ -21,4 +21,5 @@ public class Property {
     private List<Room> rooms;
     private Neighborhood neighborhood;
 
+
 }
