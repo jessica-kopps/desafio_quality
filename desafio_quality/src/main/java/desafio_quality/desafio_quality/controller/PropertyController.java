@@ -10,12 +10,15 @@ import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.model.mapper.ModelMapper;
 import desafio_quality.desafio_quality.service.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class PropertyController {
     PropertyService service;
 
     @PostMapping
-    public ResponseEntity<PropertyResponseDTO> createProperty(@RequestBody PropertyRequestDTO propertyRequestDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<PropertyResponseDTO> createProperty(@Valid @RequestBody PropertyRequestDTO propertyRequestDTO, UriComponentsBuilder uriBuilder) {
         Property property = ModelMapper.propertyDTOtoEntity(propertyRequestDTO);
         PropertyResponseDTO propertyResponseDTO = ModelMapper.entityToPropertyDTO(this.service.createProperty(property));
 
@@ -39,6 +42,11 @@ public class PropertyController {
         return ResponseEntity.created(uri).body(propertyResponseDTO);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<PropertyResponseDTO> getPropertyById(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(ModelMapper.entityToPropertyDTO(this.service.getProperty(id)));
+    }
+
     @GetMapping("/roomsAreas/{id}")
     public ResponseEntity<List<RoomResponseDTO>> getRoomsAreas(@PathVariable Long id){
         Property property = this.service.getProperty(id);
@@ -48,7 +56,7 @@ public class PropertyController {
     @GetMapping(value = "{id}/price")
     public ResponseEntity<PropertyPriceResponseDTO> calculatePrice(@PathVariable Long id) {
         Property property = this.service.getProperty(id);
-        BigDecimal totalPrice = this.service.calculateValueDistrictM2(property);
+        BigDecimal totalPrice = this.service.propertyCalculationValue(property);
         PropertyPriceResponseDTO propertyPrice = MapperDTO.propertyToPropertyPriceDTO(property, totalPrice);
         return ResponseEntity.ok().body(propertyPrice);
     }

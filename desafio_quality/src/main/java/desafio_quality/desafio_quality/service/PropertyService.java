@@ -1,6 +1,7 @@
 package desafio_quality.desafio_quality.service;
 
 
+import desafio_quality.desafio_quality.exception.PropertyNotFoundException;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.repository.PropertyRepository;
@@ -25,7 +26,7 @@ public class PropertyService {
        return this.repository.insert(property);
     }
 
-    public BigDecimal calculateValueDistrictM2(Property property) {
+    public BigDecimal propertyCalculationValue(Property property) {
         Double totalArea = property.getRooms().stream().reduce(0.0, (acc, room) -> acc + room.getArea(), Double::sum);
         return property.getNeighborhood().getValueDistrictM2().multiply(BigDecimal.valueOf(totalArea));
     }
@@ -34,7 +35,7 @@ public class PropertyService {
         Property property = this.repository.findById(id);
 
         if(property == null){
-            throw new IllegalArgumentException("Product doesnt exist.");
+            throw new PropertyNotFoundException("O imóvel de id " + id + " não foi encontrado.");
         }
 
         return  property;
