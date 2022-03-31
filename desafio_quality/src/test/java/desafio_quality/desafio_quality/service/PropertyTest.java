@@ -32,10 +32,14 @@ public class PropertyTest {
     @InjectMocks
     private PropertyService service;
 
-    @BeforeEach
-    private void setup(){
+
+    private void setupFindBy(){
         Property property = PropertyFactory.createProperty();
         Mockito.when(repository.findById(Mockito.any())).thenReturn(property);
+    }
+
+    private void setupFindAll(){
+        Property property = PropertyFactory.createProperty();
         Mockito.when(neighborhoodRepository.findAll()).thenReturn(Arrays.asList(new Neighborhood(property.getNeighborhood().getName(),
                 property.getNeighborhood().getValueDistrictM2())));
         Mockito.when(repository.insert(Mockito.any())).thenReturn(property);
@@ -43,12 +47,14 @@ public class PropertyTest {
 
     @Test
     void getTotalAreaShouldReturnTheCorrectAreaValue() {
+        this.setupFindBy();
         Property propertyCreated = service.getProperty(Mockito.any());
         assertEquals(service.getTotalArea(propertyCreated), 500.0);
     }
 
     @Test
     void getBiggestRoomShouldReturnTheBiggestRoom() {
+        this.setupFindBy();
         Room result = service.getBiggestRoom(Mockito.any());
         assertEquals(result.getName(), "Quarto");
         assertEquals(result.getWidth(), 20.0);
@@ -56,11 +62,30 @@ public class PropertyTest {
     }
 
     @Test
-    void createProperty () {
+    void shouldCreatePropertyWhenNeighborhoodExists () {
+        this.setupFindAll();
         Property property = PropertyFactory.createProperty();
         Property createProperty = service.createProperty(property);
         assertEquals(createProperty.getNeighborhood().getName(), "Bairro 1");
     }
+
+
+    @Test
+    void shouldThrowsExceptionWhenNeighborhoodDoesntExists () {
+
+    }
+
+    @Test
+    void shouldCalculateCorrectRoomArea(){
+        this.setupFindAll();
+        Property property = PropertyFactory.createProperty();
+        Property createProperty = service.createProperty(property);
+        assertEquals(createProperty.getRooms().get(0).getArea(), property.getRooms().get(0).calculateArea());
+    }
+
+
+
+
 
 
 }

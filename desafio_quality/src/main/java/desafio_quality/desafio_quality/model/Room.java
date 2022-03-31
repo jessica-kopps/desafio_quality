@@ -24,10 +24,10 @@ public class Room {
         this.name = name;
         this.length = length;
         this.width = width;
-        this.area = this.calculateArea(length, width);
+        this.area = this.calculateArea();
     }
 
-    public Double calculateArea( Double length, Double width) {
+    public Double calculateArea() {
         this.area = length * width;
         return area;
     }
