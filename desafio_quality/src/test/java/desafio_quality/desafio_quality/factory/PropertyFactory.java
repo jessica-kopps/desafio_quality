@@ -1,5 +1,8 @@
 package desafio_quality.desafio_quality.factory;
 
+import desafio_quality.desafio_quality.dto.request.NeighborhoodRequestDTO;
+import desafio_quality.desafio_quality.dto.request.PropertyRequestDTO;
+import desafio_quality.desafio_quality.dto.request.RoomRequestDTO;
 import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
@@ -11,7 +14,7 @@ import java.util.List;
 public class PropertyFactory {
 
     public static Property createProperty() {
-        Neighborhood neighborhood = new Neighborhood("Bairro 1", BigDecimal.valueOf(100));
+        Neighborhood neighborhood = new Neighborhood("Pituba", BigDecimal.valueOf(100));
         List<Room> roomList = Arrays.asList(
                 new Room("Cozinha", 10.0, 10.0),
                 new Room("Quarto", 20.0, 20.0));
@@ -49,6 +52,28 @@ public class PropertyFactory {
                 new Property(3L, "Propriedade 3", roomList1, neighborhood1)
         );
 
+    }
+
+    public static PropertyRequestDTO createPropertyRequestDTO() {
+        return new PropertyRequestDTO(
+                "Fazenda da Joaquina",
+                Arrays.asList(
+                        new RoomRequestDTO(
+                                "Quarto",
+                                15.0,
+                                15.0
+                        ),
+                        new RoomRequestDTO(
+                                "Cozinha",
+                                15.0,
+                                15.0
+                        )
+                ),
+                new NeighborhoodRequestDTO(
+                        "Pituba",
+                        BigDecimal.valueOf(1000.0)
+                )
+        );
     }
 
 }
