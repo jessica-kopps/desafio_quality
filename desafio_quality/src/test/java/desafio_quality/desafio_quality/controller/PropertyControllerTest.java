@@ -1,5 +1,6 @@
 package desafio_quality.desafio_quality.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -7,6 +8,7 @@ import desafio_quality.desafio_quality.dto.mapper.MapperDTO;
 import desafio_quality.desafio_quality.dto.request.PropertyRequestDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyPriceResponseDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
+import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.factory.PropertyFactory;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.service.PropertyService;
@@ -19,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.List;
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -59,6 +62,17 @@ public class PropertyControllerTest {
         PropertyPriceResponseDTO priceResult = new ObjectMapper().readValue(jsonReturned, PropertyPriceResponseDTO.class);
         assertEquals(priceResult.getTotalPrice(), totalPrice);
 
+    }
+
+    @Test
+    public void testRoomsAreas() throws  Exception {
+        Property property = service.createProperty(PropertyFactory.createProperty());
+        MvcResult mvcResult = this.mock.perform(MockMvcRequestBuilders.get("/properties/{id}/roomAreas", property.getId()))
+                .andDo(print()).andExpect(status().isOk()).andReturn();
+        String jsonReturned = mvcResult.getResponse().getContentAsString();
+        List<RoomResponseDTO> roomResult = new ObjectMapper().readValue(jsonReturned, new TypeReference<List<RoomResponseDTO>>(){});
+
+        assertEquals(property.getRooms().get(0).getArea(), roomResult.get(0).getArea());
     }
 
     @Test

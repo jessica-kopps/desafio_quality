@@ -47,7 +47,7 @@ public class PropertyController {
         return ResponseEntity.status(HttpStatus.OK).body(ModelMapper.entityToPropertyDTO(this.service.getProperty(id)));
     }
 
-    @GetMapping("/roomsAreas/{id}")
+    @GetMapping("{id}/roomAreas")
     public ResponseEntity<List<RoomResponseDTO>> getRoomsAreas(@PathVariable Long id){
         Property property = this.service.getProperty(id);
         return ResponseEntity.ok(ModelMapper.entityToRoomDTO(property.getRooms()));

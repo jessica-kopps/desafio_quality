@@ -78,7 +78,7 @@ public class PropertyTest {
         this.setupFindAll();
         Property property = PropertyFactory.createProperty();
         Property createProperty = service.createProperty(property);
-        assertEquals(createProperty.getNeighborhood().getName(), "Bairro 1");
+        assertEquals(createProperty.getNeighborhood().getName(), "Pituba");
     }
 
     @Test
