@@ -1,6 +1,7 @@
 package desafio_quality.desafio_quality.service;
 
 import desafio_quality.desafio_quality.exception.NeighborhoodDoesntExists;
+import desafio_quality.desafio_quality.exception.PropertyNotFoundException;
 import desafio_quality.desafio_quality.factory.PropertyFactory;
 import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
@@ -36,6 +37,11 @@ public class PropertyTest {
     @InjectMocks
     private PropertyService service;
 
+
+
+    private void setupGetProperty(){
+        Mockito.when(repository.findById(Mockito.any())).thenReturn(null);
+    }
 
     private void setupFindBy() {
         Property property = PropertyFactory.createProperty();
@@ -98,5 +104,11 @@ public class PropertyTest {
         assertEquals(createProperty.getRooms().get(0).getArea(), property.getRooms().get(0).calculateArea());
     }
 
-
+    @Test
+    void shouldTrowsExceptionWhenPropertyIsntFound() {
+        this.setupGetProperty();
+        assertThrows(PropertyNotFoundException.class, () -> {
+            service.getProperty(null);
+        });
+    }
 }
