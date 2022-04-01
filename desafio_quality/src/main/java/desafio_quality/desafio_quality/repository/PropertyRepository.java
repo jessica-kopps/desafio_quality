@@ -2,19 +2,18 @@ package desafio_quality.desafio_quality.repository;
 
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.util.JsonFileUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 public class PropertyRepository implements IPropertyRepository<Long, Property> {
 
-    private static final String FILENAME = "properties.json";
-
-
+    @Value("${pathstorefile}")
+    private String FILENAME;
 
     @Override
     public Property findById(Long id) {

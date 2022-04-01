@@ -58,14 +58,14 @@ public class PropertyTest {
     }
 
     @Test
-    void getTotalAreaShouldReturnTheCorrectAreaValue() {
+    void shouldReturnTheCorrectAreaValue() {
         this.setupFindBy();
         Property propertyCreated = service.getProperty(Mockito.any());
         assertEquals(service.getTotalArea(propertyCreated), 500.0);
     }
 
     @Test
-    void getBiggestRoomShouldReturnTheBiggestRoom() {
+    void shouldReturnTheBiggestRoom() {
         this.setupFindBy();
         Room result = service.getBiggestRoom(Mockito.any());
         assertEquals(result.getName(), "Quarto");
