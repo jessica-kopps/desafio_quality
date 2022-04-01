@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import desafio_quality.desafio_quality.dto.mapper.MapperDTO;
 import desafio_quality.desafio_quality.dto.request.NeighborhoodRequestDTO;
 import desafio_quality.desafio_quality.dto.request.PropertyRequestDTO;
+import desafio_quality.desafio_quality.dto.request.RoomRequestDTO;
 import desafio_quality.desafio_quality.dto.response.ErrorDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyPriceResponseDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
@@ -25,8 +26,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.math.BigDecimal;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -73,6 +76,46 @@ public class PropertyControllerTest {
 
         assertEquals(errorResult.getName(), errorExpected.getName());
         assertEquals(errorResult.getDescription(), errorExpected.getDescription());
+    }
+
+    @Test
+    public void testValidationPostException() throws Exception {
+        PropertyRequestDTO propertyRequestDTO = new PropertyRequestDTO();
+        propertyRequestDTO.setName("");
+        propertyRequestDTO.setRooms(new ArrayList<RoomRequestDTO>(){});
+        propertyRequestDTO.getRooms().add(
+                new RoomRequestDTO("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", 1000.00, 1000.00)
+        );
+        propertyRequestDTO.getRooms().add(
+                new RoomRequestDTO("", 0.0, 0.0)
+        );
+        propertyRequestDTO.setNeighborhood(
+                new NeighborhoodRequestDTO("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", BigDecimal.valueOf(1000000.00))
+        );
+        ObjectWriter writer = new ObjectMapper()
+                .configure(SerializationFeature.WRAP_ROOT_VALUE, false)
+                .writer().withDefaultPrettyPrinter();
+
+        String payloadRequestJson = writer.writeValueAsString(propertyRequestDTO);
+
+        MvcResult mvcResult =
+                this.mock.perform(MockMvcRequestBuilders.post("/properties")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(payloadRequestJson))
+                .andDo(print()).andExpect(status().isBadRequest()).andReturn();
+
+        String payloadReturn = mvcResult.getResponse().getContentAsString();
+        List<ErrorDTO> listResult = new ObjectMapper().readValue(payloadReturn, new TypeReference<List<ErrorDTO>>() {
+        });
+
+        assertEquals(listResult.size(), 7);
+        assertEquals(listResult.stream().filter(error -> {
+                    return error.getName().equals("MethodArgumentNotValidException");
+                }).collect(Collectors.toList()).size(), 7);
+
+
+
+
     }
 
     @Test
