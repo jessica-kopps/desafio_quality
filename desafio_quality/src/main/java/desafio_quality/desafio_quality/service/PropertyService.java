@@ -50,7 +50,7 @@ public class PropertyService {
         Property property = this.repository.findById(id);
 
         if(property == null){
-            throw new PropertyNotFoundException("O imóvel de id " + id + " não foi encontrado.");
+            throw new PropertyNotFoundException("O imovel de id " + id + " nao foi encontrado.");
         }
 
         return  property;
@@ -74,7 +74,7 @@ public class PropertyService {
     private String verifyingNeighborhoodExists(String neighborhoodName) {
         Neighborhood neighborhood = neighborhoodRepository.findAll().stream().filter(neighborhoodRegistered -> {
             return neighborhoodRegistered.getName().equalsIgnoreCase(neighborhoodName);
-        }).findFirst().orElseThrow( () -> new NeighborhoodDoesntExists("Este bairro não existe!"));
+        }).findFirst().orElseThrow( () -> new NeighborhoodDoesntExists("Este bairro nao existe!"));
         return neighborhood.getName();
     }
 }

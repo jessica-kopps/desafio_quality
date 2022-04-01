@@ -1,9 +1,6 @@
 package desafio_quality.desafio_quality.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
@@ -15,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class PropertyRequestDTO {
 
     @NotBlank(message = "O nome da propriedade não pode estar vazio.")
