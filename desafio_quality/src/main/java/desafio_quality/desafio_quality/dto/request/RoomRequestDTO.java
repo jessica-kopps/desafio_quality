@@ -19,10 +19,12 @@ public class RoomRequestDTO {
     private String name;
 
     @NotNull(message = "O campo do comprimento não pode estar vazio.")
+    @Min(value = 1, message = "O comprimento do cômodo não pode ser zero.")
     @Max(value = 33, message = "O comprimento máximo permitido do cômodo é de 33 metros.")
     private Double length;
 
     @NotNull(message = "O campo da largura não pode estar vazio.")
+    @Min(value = 1, message = "A largura do cômodo não pode ser zero.")
     @Max(value = 25, message = "A largura máxima permitido do cômodo é de 25 metros.")
     private Double width;
 

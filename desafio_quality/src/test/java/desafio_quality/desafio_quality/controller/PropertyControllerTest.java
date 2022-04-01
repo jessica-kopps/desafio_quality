@@ -122,10 +122,10 @@ public class PropertyControllerTest {
         List<ErrorDTO> listResult = new ObjectMapper().readValue(payloadReturn, new TypeReference<List<ErrorDTO>>() {
         });
 
-        assertEquals(listResult.size(), 7);
+        assertEquals(listResult.size(), 9);
         assertEquals(listResult.stream().filter(error -> {
                     return error.getName().equals("MethodArgumentNotValidException");
-                }).collect(Collectors.toList()).size(), 7);
+                }).collect(Collectors.toList()).size(), 9);
 
 
 
