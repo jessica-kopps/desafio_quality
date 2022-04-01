@@ -11,7 +11,6 @@ import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

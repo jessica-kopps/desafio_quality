@@ -13,11 +13,11 @@ import desafio_quality.desafio_quality.dto.response.PropertyPriceResponseDTO;
 import desafio_quality.desafio_quality.dto.response.PropertyResponseDTO;
 import desafio_quality.desafio_quality.dto.response.RoomResponseDTO;
 import desafio_quality.desafio_quality.factory.PropertyFactory;
-import desafio_quality.desafio_quality.model.Neighborhood;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.model.Room;
 import desafio_quality.desafio_quality.service.PropertyService;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -29,11 +29,11 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.math.BigDecimal;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

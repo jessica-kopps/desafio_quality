@@ -3,7 +3,6 @@ package desafio_quality.desafio_quality.repository;
 import desafio_quality.desafio_quality.model.Property;
 import desafio_quality.desafio_quality.util.JsonFileUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
